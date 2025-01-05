@@ -1,3 +1,4 @@
+import { PatientForm } from "@/components/form/PatientForm";
 import Image from "next/image";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
             className="mb-12 h-10 w-fit"
           />
 
+          <PatientForm/>
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify-items-end text-dark-600 xl:text-left">
               @2025 CarePluse
