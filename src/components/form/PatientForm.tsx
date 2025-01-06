@@ -34,7 +34,7 @@ export const PatientForm = () => {
         username: values.username,
         password: values.password
       };
-
+      router.push(`/dashboard`);
 
 
       // if (newUser) {
