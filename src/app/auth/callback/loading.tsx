@@ -1,5 +1,4 @@
-import { Spinner } from '@/components/global/loader/spinner'
-import React from 'react'
+import { Spinner } from "@/components/global/loader/spinner"
 
 type Props = {}
 
