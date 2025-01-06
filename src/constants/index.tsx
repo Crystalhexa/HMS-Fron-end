@@ -12,22 +12,22 @@ import {
     { title: 'Home', href: `/dashboard/home`, icon: <Home /> },
     {
       title: 'Patient',
-      href: `/dashboard/${workspaceId}`,
+      href: `/dashboard/patient`,
       icon: <FileDuoToneBlack />,
     },
     {
       title: 'Doctors',
-      href: `/dashboard/${workspaceId}/notifications`,
+      href: `/dashboard/doctors`,
       icon: <Bell />,
     },
     {
-      title: 'User',
-      href: `/dashboard/${workspaceId}/billing`,
+      title: 'Appointments',
+      href: `/dashboard/appointments`,
       icon: <CreditCard />,
     },
     {
       title: 'Settings',
-      href: `/dashboard/${workspaceId}/settings`,
+      href: `/dashboard/settings`,
       icon: <Settings />,
     },
   ]
