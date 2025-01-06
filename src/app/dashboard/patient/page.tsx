@@ -25,7 +25,8 @@ const Patient = (props: Props) => {
 
   return (
     <div>
-<DataTable type="patient" columns={columns} data={user} />    </div>
+        <DataTable type="patient" columns={columns} data={user} />    
+    </div>
   )
 }
 

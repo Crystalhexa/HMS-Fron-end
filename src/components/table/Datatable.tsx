@@ -24,6 +24,7 @@ import {
   import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
   import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { redirect } from 'next/navigation'
   
   interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -43,14 +44,14 @@ import Image from "next/image";
     const [rowSelection, setRowSelection] = React.useState({})
     
   
-    // const handleAddPatient = ()=>{
-    //   if(type==="doctor"){
-    //     navigate('/addDoctor');
-    //   }else if(type==="patient"){
-    //     navigate('/register')
-    //   }
+    const handleAddPatient = ()=>{
+      if(type==="doctor"){
+        redirect('/addDoctor');
+      }else if(type==="patient"){
+        redirect('/register')
+      }
       
-    // }
+    }
   
   
     const table = useReactTable({
@@ -109,7 +110,7 @@ import Image from "next/image";
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button /*onClick={handleAddPatient}*/>
+          <Button onClick={handleAddPatient}>
             Add {type}
           </Button>
         </div>

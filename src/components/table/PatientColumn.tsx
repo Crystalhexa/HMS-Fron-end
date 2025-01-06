@@ -3,6 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from "../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Patient } from "@/types/express.type";
+import { redirect } from "next/navigation";
 
 
 export const columns: ColumnDef<Patient>[] = [
@@ -54,14 +55,13 @@ export const columns: ColumnDef<Patient>[] = [
     id: "patient_id",
     enableHiding: false,
     cell: ({ row }) => {
-      const navigate = useNavigate(); // Use the useNavigate hook here
       const handleViewPatient = () => {
         const patientId = row.original.patient_id; // Assuming each patient has an "id" field
-        navigate(`/register/${patientId}`); // Navigate to patient details page
+        redirect(`/register/${patientId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
         const patientId = row.original.patient_id; // Assuming each patient has an "id" field
-        navigate(`/appointement/${patientId}`); // Navigate to patient details page
+        redirect(`/appointement/${patientId}`); // Navigate to patient details page
       };
 
       return (
