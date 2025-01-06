@@ -9,19 +9,19 @@ import {
   export const MENU_ITEMS = (
     workspaceId: string
   ): { title: string; href: string; icon: React.ReactNode }[] => [
-    { title: 'Home', href: `/dashboard/${workspaceId}/home`, icon: <Home /> },
+    { title: 'Home', href: `/dashboard/home`, icon: <Home /> },
     {
-      title: 'My Library',
+      title: 'Patient',
       href: `/dashboard/${workspaceId}`,
       icon: <FileDuoToneBlack />,
     },
     {
-      title: 'Notifications',
+      title: 'Doctors',
       href: `/dashboard/${workspaceId}/notifications`,
       icon: <Bell />,
     },
     {
-      title: 'Billing',
+      title: 'User',
       href: `/dashboard/${workspaceId}/billing`,
       icon: <CreditCard />,
     },

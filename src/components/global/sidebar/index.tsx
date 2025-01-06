@@ -1,13 +1,4 @@
 'use client'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
@@ -27,12 +18,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const router = useRouter()
   const pathName = usePathname()
 
-
   const menuItems = MENU_ITEMS(activeWorkspaceId)
-
-  
-
-  
 
   const onChangeActiveWorkspace = (value: string) => {
     router.push(`/dashboard/${value}`)

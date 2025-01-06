@@ -14,9 +14,8 @@
       
         <div className="flex h-screen w-screen">
           <Sidebar activeWorkspaceId={workspaceId} />
-          <div className="w-full pt-28 p-6 overflow-y-scroll overflow-x-hidden">
-           
-            <div className="mt-4">{children}</div>
+          <div className="w-full p-6 overflow-y-scroll overflow-x-hidden">
+            {children}
           </div>
         </div>
     );
