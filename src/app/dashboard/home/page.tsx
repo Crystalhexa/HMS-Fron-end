@@ -1,19 +1,26 @@
+'use client'
 import StatCard from '@/components/global/StatCard'
+import { useAuth } from '@/contexts/AuthContext';
 import React from 'react'
 
 type Props = {}
 
 const page = (props: Props) => {
+    const { login, loading, error,redirect,user } = useAuth();
+  console.log(user?.role)
   return (
     <main className="admin-main">
 
         <section className="admin-stat">
+          {user?.role!=="ADMIN" &&
           <StatCard
-            type="appointments"
-           // count={appointments.scheduledCount}
-            label="Scheduled appointments"
-            icon={"/assets/icons/appointments.svg"}
-          />
+          type="appointments"
+         // count={appointments.scheduledCount}
+          label="Scheduled appointments"
+          icon={"/assets/icons/appointments.svg"}
+        />
+          }
+          
           <StatCard
             type="pending"
             //count={appointments.pendingCount}
