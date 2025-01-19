@@ -26,11 +26,11 @@ export const PatientFormValidation = z.object({
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be at most 50 characters"),
   email: z.string().email("Invalid email address"),
-  phone: z
+  contactNumber: z
     .string()
     .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
   birthDate: z.coerce.date(),
-  gender: z.enum(["male", "female", "other"]),
+  gender: z.enum(["MALE", "FEMALE", "OTHER"]),
   address: z
     .string()
     .min(5, "Address must be at least 5 characters")
@@ -39,17 +39,29 @@ export const PatientFormValidation = z.object({
     .string()
     .min(2, "Occupation must be at least 2 characters")
     .max(500, "Occupation must be at most 500 characters"),
-  emergencyContactName: z
+    emergencyContactName: z
     .string()
-    .min(2, "Contact name must be at least 2 characters")
-    .max(50, "Contact name must be at most 50 characters"),
+    .optional()
+    .refine(
+      (name) => !name || name.length >= 2,
+      "Contact name must be at least 2 characters"
+    )
+    .refine(
+      (name) => !name || name.length <= 50,
+      "Contact name must be at most 50 characters"
+    ),
   emergencyContactNumber: z
     .string()
+    .optional()
     .refine(
-      (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
+      (number) => !number || /^\+\d{10,15}$/.test(number),
       "Invalid phone number"
     ),
-  identificationNumber: z.string().optional(),
-  photo: z.custom<File[]>().optional(),
+    indentificationNumber: z.string()    
+  .min(5, "Id number must be at least 5 characters")
+  .max(10, "Address must be at most 500 characters"),
+  photo: z.custom<File[]>().optional()
+  
+  ,
 });
 

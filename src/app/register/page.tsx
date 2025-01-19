@@ -35,7 +35,7 @@ export default function Register({ type }: RegisterProps) {
             className="mb-12 h-10 w-fit"
           />
 
-          <RegisterForm type={type} />
+          <RegisterForm type={"create"} />
 
           <p className="copyright py-12">© 2024 CarePluse</p>
         </div>

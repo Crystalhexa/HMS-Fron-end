@@ -34,7 +34,7 @@ import {
   ]
 
 
-export const GenderOptions = ["male", "female", "other"];
+export const GenderOptions = ["MALE", "FEMALE", "OTHER"];
 
 export const PatientFormDefaultValues = {
   firstName: "",
