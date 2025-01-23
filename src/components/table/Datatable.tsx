@@ -48,9 +48,8 @@ import { redirect } from 'next/navigation'
       if(type==="doctor"){
         redirect('/addDoctor');
       }else if(type==="patient"){
-        redirect('/register')
+        redirect('/dashboard/register')
       }
-      
     }
   
   
