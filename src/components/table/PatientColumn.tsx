@@ -20,24 +20,31 @@ export const columns: ColumnDef<Patient>[] = [
   {
     accessorKey: 'phone',
     header: 'Phone',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.phone}</p>
+    cell: ({ row }) => <p className="text-14-medium">{row.original.contactNumber}</p>
   },
   {
-    accessorKey: 'date_of_birth',
+    accessorKey: 'birthDate',
     header: 'Birthdate',
     cell: ({ row }) => (
       <p className="text-14-medium">
-        {row.original.date_of_birth ? new Date(row.original.date_of_birth).toLocaleDateString() : 'Not Set'}
+        {row.original.birthDate
+          ? new Date(row.original.birthDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          : 'Not Set'}
       </p>
-    )
-  },  
+    ),
+  },
+  
   {
     accessorKey: 'gender',
     header: 'Gender',
     cell: ({ row }) => <p className="text-14-medium">{row.original.gender}</p>
   },
   {
-    accessorKey: "nic",
+    accessorKey: "indentificationNumber",
     header: ({ column }) => {
       return (
         <Button
@@ -49,15 +56,15 @@ export const columns: ColumnDef<Patient>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="uppercase">{row.getValue("nic")}</div>,
+    cell: ({ row }) => <div className="uppercase">{row.getValue("indentificationNumber")}</div>,
   },
   {
-    id: "patient_id",
+    id: "id",
     enableHiding: false,
     cell: ({ row }) => {
       const handleViewPatient = () => {
-        const patientId = row.original.patient_id; // Assuming each patient has an "id" field
-        redirect(`/register/${patientId}`); // Navigate to patient details page
+        const patientId = row.original.id; // Assuming each patient has an "id" field
+        redirect(`/dashboard/patient/update/${patientId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
         const patientId = row.original.patient_id; // Assuming each patient has an "id" field

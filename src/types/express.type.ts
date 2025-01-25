@@ -8,7 +8,7 @@ export interface Patient{
   userId: string;
   name: string;
   email: string;
-  phone: string;
+  contactNumber: string;
   birthDate: Date;
   gender: Gender;
   address: string;

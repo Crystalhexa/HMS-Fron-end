@@ -48,7 +48,7 @@ import { redirect } from 'next/navigation'
       if(type==="doctor"){
         redirect('/addDoctor');
       }else if(type==="patient"){
-        redirect('/dashboard/register')
+        redirect(`/dashboard/patient/register`)
       }
     }
   
@@ -77,9 +77,9 @@ import { redirect } from 'next/navigation'
         <div className="flex items-center py-4">
           <Input
             placeholder="Filter by nic..."
-            value={(table.getColumn("nic")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("indentificationNumber")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("nic")?.setFilterValue(event.target.value)
+              table.getColumn("indentificationNumber")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />

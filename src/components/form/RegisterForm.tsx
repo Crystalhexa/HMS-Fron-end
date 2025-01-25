@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl } from "@/components/ui/form";
@@ -15,6 +15,7 @@ import SubmitButton from "../SubmitButton";
 import { GenderOptions } from "@/constants";
 import { toast } from "@/hooks/use-toast";
 import { Toaster } from "../ui/toaster";
+import { useParams } from "next/navigation";
 
 const RegisterForm = ({ type }: { type: "create" | "update" }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +23,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
     string | null
   >(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
-  // const { id } = useParams();
+  const { patientId } = useParams();
 
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
@@ -42,26 +43,26 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
 
   const { reset } = form;
 
-  // useEffect(() => {
-  //   if (id) {
-  //     fetchPatientDetails();
-  //   }
-  // }, [id]);
+  useEffect(() => {
+    if (patientId) {
+      fetchPatientDetails();
+    }
+  }, [patientId]);
 
   const fetchPatientDetails = async () => {
     try {
-      const response = await fetch(`/api/patient/getById/`);
+      const response = await fetch(`http://localhost:3000/api/v1/adult/getById/${patientId}`);
       const data = await response.json();
       // Convert date_of_birth string to a Date object
-      const birthDate = new Date(data.date_of_birth);
+      
 
       // Reset form with fetched patient data
       reset({
         name: data.name || "",
-        indentificationNumber: data.nic || "",
+        indentificationNumber: data.indentificationNumber || "",
         email: data.email || "",
         contactNumber: data.contactNumber || "",
-        birthDate: birthDate, // Set the date as a Date object
+        birthDate: data.birthDate, // Set the date as a Date object
         gender: data.gender || "",
         address: data.address || "",
         occupation: data.occupation || "",
@@ -147,7 +148,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
 
       if (type === "create") {
         const response = await fetch(
-          "http://localhost:3000/api/v1/adult/createAdultPatient",
+          "http://localhost:3000/api/v1/adult/create",
           {
             method: "POST",
             headers: {
@@ -186,7 +187,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
           });
         }
       } else {
-        const response = await fetch(`/api/patient/update/`, {
+        const response = await fetch(`http://localhost:3000/api/v1/adult/update/${patientId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(patient),
