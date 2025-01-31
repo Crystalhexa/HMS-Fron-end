@@ -64,4 +64,56 @@ export const PatientFormValidation = z.object({
   
   ,
 });
+export const CreateAppointmentSchema = z.object({
+  primaryPhysician: z.string().min(2, "Select at least one doctor"),
+  schedule: z.coerce.date(),
+  reason: z
+    .string()
+    .min(2, "Reason must be at least 2 characters")
+    .max(500, "Reason must be at most 500 characters"),
+  note: z.string().optional(),
+  cancellationReason: z.string().optional(),
+});
 
+export const ScheduleAppointmentSchema = z.object({
+  primaryPhysician: z.string().min(2, "Select at least one doctor"),
+  schedule: z.coerce.date(),
+  reason: z.string().optional(),
+  note: z.string().optional(),
+  cancellationReason: z.string().optional(),
+});
+
+export const CancelAppointmentSchema = z.object({
+  primaryPhysician: z.string().min(2, "Select at least one doctor"),
+  schedule: z.coerce.date(),
+  reason: z.string().optional(),
+  note: z.string().optional(),
+  cancellationReason: z
+    .string()
+    .min(2, "Reason must be at least 2 characters")
+    .max(500, "Reason must be at most 500 characters"),
+});
+export function getAppointmentSchema(type: string) {
+  switch (type) {
+    case "create":
+      return CreateAppointmentSchema;
+    case "cancel":
+      return CancelAppointmentSchema;
+    default:
+      return ScheduleAppointmentSchema;
+  }
+}
+
+export const DoctorFormValidation = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters long"),
+  email: z.string().email("Invalid email format"),
+  contactNumber: z.string().min(10, "Phone number must be at least 10 digits"),
+  dateOfBirth: z.date(),
+  gender: z.enum(["MALE", "FEMALE", "OTHER"]),  // Enforced as required
+  address: z.string().min(5, "Address must be at least 5 characters long"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+  identificationNumber: z.string().min(6, "Identification Number is required"),
+  specialization: z.string().min(3, "Specialization must be at least 3 characters long"),
+  yearsOfExperience: z.number().min(0, "Years of experience must be a positive number"),
+  medicalLicenseNumber: z.string().min(6, "Medical License Number is required"),
+});
