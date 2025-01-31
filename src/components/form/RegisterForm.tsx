@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,7 @@ import SubmitButton from "../SubmitButton";
 import { GenderOptions } from "@/constants";
 import { toast } from "@/hooks/use-toast";
 import { Toaster } from "../ui/toaster";
+import { useParams } from "next/navigation";
 
 const RegisterForm = ({ type }: { type: "create" | "update" }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,17 +23,17 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
     string | null
   >(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
-  const { id } = useParams();
+  const { patientId } = useParams();
 
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       name: "",
-      identificationNumber: "",
-      email: "",
-      phone: "",
+      indentificationNumber: "",
       birthDate: new Date(),
-      gender: "other",
+      contactNumber: "",
+      gender: "OTHER",
+      email: "",
       address: "",
       occupation: "",
       emergencyContactName: "",
@@ -43,25 +44,25 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
   const { reset } = form;
 
   useEffect(() => {
-    if (id) {
+    if (patientId) {
       fetchPatientDetails();
     }
-  }, [id]);
+  }, [patientId]);
 
   const fetchPatientDetails = async () => {
     try {
-      const response = await fetch(`/api/patient/getById/${id}`);
+      const response = await fetch(`http://localhost:3000/api/v1/adult/getById/${patientId}`);
       const data = await response.json();
       // Convert date_of_birth string to a Date object
-      const birthDate = new Date(data.date_of_birth);
+      
 
       // Reset form with fetched patient data
       reset({
         name: data.name || "",
-        identificationNumber: data.nic || "",
+        indentificationNumber: data.indentificationNumber || "",
         email: data.email || "",
-        phone: data.phone || "",
-        birthDate: birthDate, // Set the date as a Date object
+        contactNumber: data.contactNumber || "",
+        birthDate: data.birthDate, // Set the date as a Date object
         gender: data.gender || "",
         address: data.address || "",
         occupation: data.occupation || "",
@@ -109,53 +110,74 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
       const {
         name,
         email,
-        phone,
+        contactNumber,
         gender,
         address,
         occupation,
         emergencyContactName,
         emergencyContactNumber,
-        identificationNumber,
+        indentificationNumber,
       } = values;
-      const dob = values.birthDate
+      const birthDate = values.birthDate
         ? values.birthDate.toISOString().split("T")[0]
         : "";
+
       const patient = {
         name,
-        email,
-        profilePicture,
-        phone,
-        dob,
+        indentificationNumber,
+        birthDate,
+        contactNumber,
         gender,
+        email,
         address,
         occupation,
         emergencyContactName,
         emergencyContactNumber,
-        identificationNumber,
+        profilePicture,
       };
 
       if (type === "create") {
-        const response = await fetch("/api/patient/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(patient),
-        });
+        const response = await fetch(
+          "http://localhost:3000/api/v1/adult/create",
+          {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(patient),
+            credentials: "include",
+          }
+        );
         if (response.ok) {
           toast({
             title: "Success!",
             description: "Patient registered successfully.",
             style: { backgroundColor: "black", color: "white" },
           });
+
+          // Reset the form fields to their default values
+          reset({
+            name: "",
+            indentificationNumber: "",
+            birthDate: new Date(),
+            contactNumber: "",
+            gender: "OTHER",
+            email: "",
+            address: "",
+            occupation: "",
+            emergencyContactName: "",
+            emergencyContactNumber: "",
+          });
         } else {
           const errorText = await response.json();
           toast({
             title: "Error!",
-            description: `Patient registration Unsuccessfully.${errorText.message}`,
+            description: `Patient registration unsuccessful: ${errorText.message}`,
             style: { backgroundColor: "red", color: "white" },
           });
         }
       } else {
-        const response = await fetch(`/api/patient/update/${id}`, {
+        const response = await fetch(`http://localhost:3000/api/v1/adult/update/${patientId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(patient),
@@ -163,14 +185,14 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
         if (response.ok) {
           toast({
             title: "Success!",
-            description: `Patient update successfully`,
+            description: `Patient updated successfully.`,
             style: { backgroundColor: "black", color: "white" },
           });
         } else {
           const errorText = await response.json();
           toast({
             title: "Error!",
-            description: `Patient update Unsuccessfully ${errorText}`,
+            description: `Patient update unsuccessful: ${errorText.message}`,
             style: { backgroundColor: "red", color: "white" },
           });
         }
@@ -178,7 +200,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
     } catch (error) {
       toast({
         title: "Error!",
-        description: `Patient update Unsuccessfully ${error}`,
+        description: `Patient registration/update failed: ${error}`,
         style: { backgroundColor: "red", color: "white" },
       });
     } finally {
@@ -241,7 +263,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
             <CustomFormField
               fieldType={FormFieldType.PHONE_INPUT}
               control={form.control}
-              name="phone"
+              name="contactNumber"
               label="Phone Number"
               placeholder="(555) 123-4567"
             />
@@ -326,7 +348,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
           <CustomFormField
             fieldType={FormFieldType.INPUT}
             control={form.control}
-            name="identificationNumber"
+            name="indentificationNumber"
             label="Identification Number"
             placeholder="123456789"
           />

@@ -8,7 +8,7 @@ export interface Patient{
   userId: string;
   name: string;
   email: string;
-  phone: string;
+  contactNumber: string;
   birthDate: Date;
   gender: Gender;
   address: string;
@@ -29,5 +29,16 @@ export interface Appointment {
   userId: string;
   cancellationReason: string | null;
 }
-
+export interface Doctor {
+  id(id: any): void;
+  name:string,
+  dateOfBirth: any;
+  address: string;
+  gender:Gender;
+  specialization: string;
+  yearsOfExperience: number;
+  medicalLicenseNumber:string;
+  contactNumber: string;
+  identificationNumber: string;
+}
 
