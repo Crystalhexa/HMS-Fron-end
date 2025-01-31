@@ -2,20 +2,15 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Patient } from "@/types/express.type";
+import { Doctor } from "@/types/express.type";
 import { redirect } from "next/navigation";
 
 
-export const columns: ColumnDef<Patient>[] = [
+export const columns: ColumnDef<Doctor>[] = [
   {
     accessorKey: 'name',
-    header: 'Patient name',
+    header: 'Doctor name',
     cell: ({ row }) => <p className="text-14-medium">{row.original.name}</p>
-  },
-  {
-    accessorKey: 'email',
-    header: 'Email',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.email}</p>
   },
   {
     accessorKey: 'phone',
@@ -23,25 +18,19 @@ export const columns: ColumnDef<Patient>[] = [
     cell: ({ row }) => <p className="text-14-medium">{row.original.contactNumber}</p>
   },
   {
-    accessorKey: 'birthDate',
-    header: 'Birthdate',
-    cell: ({ row }) => (
-      <p className="text-14-medium">
-        {row.original.birthDate
-          ? new Date(row.original.birthDate).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })
-          : 'Not Set'}
-      </p>
-    ),
+    accessorKey: 'specialization',
+    header: 'Specialization',
+    cell: ({ row }) => <p className="text-14-medium">{row.original.specialization}</p>
   },
-  
   {
-    accessorKey: 'gender',
-    header: 'Gender',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.gender}</p>
+    accessorKey: 'medicalLicenseNumber',
+    header: 'Medical License Number',
+    cell: ({ row }) => <p className="text-14-medium">{row.original.medicalLicenseNumber}</p>
+  },
+  {
+    accessorKey: 'yearsOfExperience',
+    header: 'Years Of Experience',
+    cell: ({ row }) => <p className="text-14-medium">{row.original.yearsOfExperience}</p>
   },
   {
     accessorKey: "identificationNumber",
@@ -64,11 +53,11 @@ export const columns: ColumnDef<Patient>[] = [
     cell: ({ row }) => {
       const handleViewPatient = () => {
         const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/patient/update/${patientId}`); // Navigate to patient details page
+        redirect(`/dashboard/doctors/update/${patientId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
-        const patientId = row.original.patient_id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/patient/appointment/${patientId}`); // Navigate to patient details page
+        // const patientId = row.original.patient_id; // Assuming each patient has an "id" field
+        // redirect(`/dashboard/patient/appointment/${patientId}`); // Navigate to patient details page
       };
 
       return (

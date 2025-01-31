@@ -77,9 +77,9 @@ import { redirect } from 'next/navigation'
         <div className="flex items-center py-4">
           <Input
             placeholder="Filter by nic..."
-            value={(table.getColumn("indentificationNumber")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("identificationNumber")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("indentificationNumber")?.setFilterValue(event.target.value)
+              table.getColumn("identificationNumber")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />

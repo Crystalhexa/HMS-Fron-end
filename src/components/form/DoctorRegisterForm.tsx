@@ -56,7 +56,7 @@ const DoctorRegisterForm = ({ type }: { type: "create" | "update" }) => {
         identificationNumber: data.identificationNumber || "",
         email: data.email || "",
         contactNumber: data.contactNumber || "",
-        dateOfBirth: new Date(data.birthDate) || new Date(),
+        dateOfBirth: data.birthDate || new Date(),
         gender: data.gender || "",
         address: data.address || "",
         password: "",

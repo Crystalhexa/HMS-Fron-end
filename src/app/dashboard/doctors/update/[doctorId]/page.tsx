@@ -31,7 +31,7 @@ export default function Register({ type }: RegisterProps) {
               className="mr-2 w-5 h-5 opacity-60"  // Adjusted size and opacity for a lighter effect
             />
           </button>
-          <DoctorRegisterForm type={"create"} />
+          <DoctorRegisterForm type={"update"} />
           <p className="copyright py-12">© 2024 CarePluse</p>
         </div>
       </section>
