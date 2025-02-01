@@ -67,8 +67,8 @@ export const columns: ColumnDef<Patient>[] = [
         redirect(`/dashboard/patient/update/${patientId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
-        const patientId = row.original.patient_id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/patient/appointment/${patientId}`); // Navigate to patient details page
+        const patientId = row.original.id; // Assuming each patient has an "id" field
+        redirect(`/dashboard/patient/appointment/${patientId}/doctors`); // Navigate to patient details page
       };
 
       return (

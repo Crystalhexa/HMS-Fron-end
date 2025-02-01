@@ -57,7 +57,7 @@ export const PatientFormValidation = z.object({
       (number) => !number || /^\+\d{10,15}$/.test(number),
       "Invalid phone number"
     ),
-    indentificationNumber: z.string()    
+    identificationNumber: z.string()    
   .min(5, "Id number must be at least 5 characters")
   .max(10, "Address must be at most 500 characters"),
   photo: z.custom<File[]>().optional()

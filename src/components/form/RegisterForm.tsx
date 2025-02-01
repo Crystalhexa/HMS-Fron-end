@@ -29,7 +29,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       name: "",
-      indentificationNumber: "",
+      identificationNumber: "",
       birthDate: new Date(),
       contactNumber: "",
       gender: "OTHER",
@@ -59,7 +59,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
       // Reset form with fetched patient data
       reset({
         name: data.name || "",
-        indentificationNumber: data.indentificationNumber || "",
+        identificationNumber: data.identificationNumber || "",
         email: data.email || "",
         contactNumber: data.contactNumber || "",
         birthDate: data.birthDate, // Set the date as a Date object
@@ -116,7 +116,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
         occupation,
         emergencyContactName,
         emergencyContactNumber,
-        indentificationNumber,
+        identificationNumber,
       } = values;
       const birthDate = values.birthDate
         ? values.birthDate.toISOString().split("T")[0]
@@ -124,7 +124,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
 
       const patient = {
         name,
-        indentificationNumber,
+        identificationNumber,
         birthDate,
         contactNumber,
         gender,
@@ -158,7 +158,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
           // Reset the form fields to their default values
           reset({
             name: "",
-            indentificationNumber: "",
+            identificationNumber: "",
             birthDate: new Date(),
             contactNumber: "",
             gender: "OTHER",
@@ -348,7 +348,7 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
           <CustomFormField
             fieldType={FormFieldType.INPUT}
             control={form.control}
-            name="indentificationNumber"
+            name="identificationNumber"
             label="Identification Number"
             placeholder="123456789"
           />

@@ -3,7 +3,6 @@ import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
-import Modal from '../modal'
 import { Menu, PlusCircle } from 'lucide-react'
 import { MENU_ITEMS } from '@/constants'
 import { Button } from '@/components/ui/button'
@@ -19,10 +18,6 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const pathName = usePathname()
 
   const menuItems = MENU_ITEMS(activeWorkspaceId)
-
-  const onChangeActiveWorkspace = (value: string) => {
-    router.push(`/dashboard/${value}`)
-  }
 
   const SidebarSection = (
     <div className="bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-hidden">
