@@ -11,7 +11,7 @@ import SubmitButton from "../SubmitButton";
 import { useAuth } from "@/contexts/AuthContext";
 
 export const PatientForm = () => {
-  const { login, loading, error,redirect } = useAuth();
+  const { login, loading, error } = useAuth();
   const router = useRouter(); // Initialize useRouter
 
   const form = useForm<z.infer<typeof UserFormValidation>>({

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 
 const AuthCallbackPage = async () => {
   
-    return redirect(`/dashboard/home`)
+    return redirect(`/admin/dashboard/home`)
 
 }
 

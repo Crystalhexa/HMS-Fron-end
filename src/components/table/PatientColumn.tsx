@@ -64,11 +64,11 @@ export const columns: ColumnDef<Patient>[] = [
     cell: ({ row }) => {
       const handleViewPatient = () => {
         const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/patient/update/${patientId}`); // Navigate to patient details page
+        redirect(`/admin/dashboard/patient/update/${patientId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
         const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/patient/appointment/${patientId}/doctors`); // Navigate to patient details page
+        redirect(`/admin/dashboard/patient/appointment/${patientId}/doctors`); // Navigate to patient details page
       };
 
       return (

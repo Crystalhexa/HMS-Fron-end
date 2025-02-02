@@ -53,7 +53,7 @@ export const columns: ColumnDef<Doctor>[] = [
     cell: ({ row }) => {
       const handleViewPatient = () => {
         const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/doctors/update/${patientId}`); // Navigate to patient details page
+        redirect(`/admin/dashboard/doctors/update/${patientId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
         // const patientId = row.original.patient_id; // Assuming each patient has an "id" field

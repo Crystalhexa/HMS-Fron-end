@@ -10,25 +10,25 @@ import {
   export const MENU_ITEMS = (
     workspaceId: string
   ): { title: string; href: string; icon: React.ReactNode }[] => [
-    { title: 'Home', href: `/dashboard/home`, icon: <Home /> },
+    { title: 'Home', href: `/admin/dashboard/home`, icon: <Home /> },
     {
       title: 'Patient',
-      href: `/dashboard/patient`,
+      href: `/admin/dashboard/patient`,
       icon: <FileDuoToneBlack />,
     },
     {
       title: 'Doctors',
-      href: `/dashboard/doctors`,
+      href: `/admin/dashboard/doctors`,
       icon: <Bell />,
     },
     {
       title: 'Appointments',
-      href: `/dashboard/appointments`,
+      href: `/admin/dashboard/appointments`,
       icon: <CreditCard />,
     },
     {
       title: 'Settings',
-      href: `/dashboard/settings`,
+      href: `/admin/dashboard/settings`,
       icon: <Settings />,
     },
   ]

@@ -46,9 +46,9 @@ import { redirect } from 'next/navigation'
   
     const handleAddPatient = ()=>{
       if(type==="doctor"){
-        redirect('/dashboard/doctors/register');
+        redirect('/admin/dashboard/doctors/register');
       }else if(type==="patient"){
-        redirect(`/dashboard/patient/register`)
+        redirect(`/admin/dashboard/patient/register`)
       }
     }
   
