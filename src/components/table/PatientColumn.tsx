@@ -8,6 +8,11 @@ import { redirect } from "next/navigation";
 
 export const columns: ColumnDef<Patient>[] = [
   {
+    accessorKey: 'Id',
+    header: 'Id',
+    cell: ({ row }) => <p className="text-14-medium">{row.original.id}</p>
+  },
+  {
     accessorKey: 'name',
     header: 'Patient name',
     cell: ({ row }) => <p className="text-14-medium">{row.original.name}</p>
@@ -63,12 +68,12 @@ export const columns: ColumnDef<Patient>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const handleViewPatient = () => {
-        const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/admin/dashboard/patient/update/${patientId}`); // Navigate to patient details page
+        const patientId = row.original.adultPatientId; // Assuming each patient has an "id" field
+        redirect(`/dashboard/patient/update/${patientId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
-        const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/admin/dashboard/patient/appointment/${patientId}/doctors`); // Navigate to patient details page
+        const patientId = row.original.adultPatientId; // Assuming each patient has an "id" field
+        redirect(`/dashboard/patient/appointment/${patientId}/doctors`); // Navigate to patient details page
       };
 
       return (

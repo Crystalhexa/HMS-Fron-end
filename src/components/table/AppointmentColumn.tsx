@@ -1,41 +1,56 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Doctor } from "@/types/express.type";
+import { Appointment, } from "@/types/express.type";
 import { redirect } from "next/navigation";
 
-
-export const columns: ColumnDef<Doctor>[] = [
+export const columns: ColumnDef<Appointment>[] = [
   {
-    accessorKey: 'Id',
-    header: 'Id',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.id}</p>
+    accessorKey: "appointmentNumber",
+    header: "Appointment No",
+    cell: ({ row }) => <p className="text-14-medium">{row.original.id}</p>,
+  }
+  ,
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <p className="text-14-medium">{row.original.status}</p>
+    ),
   },
   {
-    accessorKey: 'name',
-    header: 'Doctor name',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.name}</p>
+    accessorKey: "slotDate",
+    header: "Slot date",
+    cell: ({ row }) => (
+      <p className="text-14-medium">{row.original.slotDate}</p>
+    ),
   },
   {
-    accessorKey: 'phone',
-    header: 'Phone',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.contactNumber}</p>
+    accessorKey: "slotTime",
+    header: "Slot Time",
+    cell: ({ row }) => (
+      <p className="text-14-medium">{row.original.slotTime}</p>
+    ),
   },
   {
-    accessorKey: 'specialization',
-    header: 'Specialization',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.specialization}</p>
+    accessorKey: "patientName",
+    header: "patientName",
+    cell: ({ row }) => <p className="text-14-medium">{row.original.name}</p>,
   },
   {
-    accessorKey: 'medicalLicenseNumber',
-    header: 'Medical License Number',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.medicalLicenseNumber}</p>
-  },
-  {
-    accessorKey: 'yearsOfExperience',
-    header: 'Years Of Experience',
-    cell: ({ row }) => <p className="text-14-medium">{row.original.yearsOfExperience}</p>
+    accessorKey: "gender",
+    header: "Gender",
+    cell: ({ row }) => (
+      <p className="text-14-medium">{row.original.gender}</p>
+    ),
   },
   {
     accessorKey: "identificationNumber",
@@ -48,9 +63,11 @@ export const columns: ColumnDef<Doctor>[] = [
           NIC
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
-    cell: ({ row }) => <div className="uppercase">{row.getValue("identificationNumber")}</div>,
+    cell: ({ row }) => (
+      <div className="uppercase">{row.getValue("identificationNumber")}</div>
+    ),
   },
   {
     id: "id",
@@ -58,7 +75,7 @@ export const columns: ColumnDef<Doctor>[] = [
     cell: ({ row }) => {
       const handleViewPatient = () => {
         const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/doctors/update/${patientId}`); // Navigate to patient details page
+        redirect(`/dashboard/appointment/medicalhistory`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
         // const patientId = row.original.patient_id; // Assuming each patient has an "id" field
@@ -76,13 +93,12 @@ export const columns: ColumnDef<Doctor>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={handleViewPatient}>
-              View Patient
+              Proceed
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={scheduleAppointment}>Schedule Appointment</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
 ];

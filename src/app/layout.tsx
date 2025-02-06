@@ -1,14 +1,14 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
-import {cn} from '@/lib/utils'
+import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ['300','400','500','600','700'],
-  variable: '--font-sans'
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
 });
 export const metadata: Metadata = {
   title: "Panadura Nursing Home",
@@ -20,17 +20,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en"  suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={cn('min-h-screen bg-dark-300 font-sans antialiased',fontSans.variable)}>
-          <AuthProvider>
-         <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-          >
+        className={cn(
+          "min-h-screen bg-dark-300 font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark">
             {children}
           </ThemeProvider>
-          </AuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );

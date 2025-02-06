@@ -2,9 +2,9 @@ import { Gender, Status } from ".";
 
 
 export interface Patient{
+  id: number;
   date_of_birth: any;
-  patient_id: any;
-  id(id: any): void;
+  adultPatientId: any;
   userId: string;
   name: string;
   email: string;
@@ -20,17 +20,16 @@ export interface Patient{
 }
 
 export interface Appointment {
-  patient: Patient;
-  schedule: Date;
+  id: String;
+  name:String;
+  identificationNumber:String;
+  gender: String;
+  slotDate:String;
+  slotTime:String;
   status: Status;
-  primaryPhysician: string;
-  reason: string;
-  note: string;
-  userId: string;
-  cancellationReason: string | null;
 }
 export interface Doctor {
-  id(id: any): void;
+  id:any;
   name:string,
   dateOfBirth: any;
   address: string;

@@ -117,3 +117,13 @@ export const DoctorFormValidation = z.object({
   yearsOfExperience: z.number().min(0, "Years of experience must be a positive number"),
   medicalLicenseNumber: z.string().min(6, "Medical License Number is required"),
 });
+
+
+
+export const MedicaleRecordValidation = z.object({
+  symptoms: z.string().min(1, "Symptoms are required"),
+  diagnosis: z.string().min(1, "Diagnosis is required"),
+  prescription: z.string().optional(),
+  treatmentNotes: z.string().optional(),
+  allergies: z.string().optional(),
+});

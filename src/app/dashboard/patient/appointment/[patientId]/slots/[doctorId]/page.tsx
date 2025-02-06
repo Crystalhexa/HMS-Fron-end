@@ -56,7 +56,7 @@ const Page = () => {
     const today = new Date();
     const slots: TimeSlot[][] = [];
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 30; i++) {
       const currentDate = new Date(today);
       currentDate.setDate(today.getDate() + i);
 
@@ -155,9 +155,9 @@ const Page = () => {
   }, [doctorId]);
 
   useEffect(() => {
-    if (Object.keys(appointments).length) {
+   
       generateAvailableSlots();
-    }
+   
   }, [appointments]);
 
   return (

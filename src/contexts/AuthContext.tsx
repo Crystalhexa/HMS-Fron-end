@@ -8,7 +8,7 @@ import {
 } from "react";
 
 type User = {
-  id: number;
+  userId: string;
   username: string;
   email: string;
   role: string
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
       setRedirect(true);
-      setLoading(false);
+      setLoading(true);
       return true; // Return true if login succeeds
     } catch (err: any) {
       setError(err.message || "An error occurred");
@@ -79,9 +79,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     checkUser();
   }, []);
 
+  const value={
+    user, 
+    login, 
+    logout, 
+    loading, 
+    error, 
+    redirect
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, loading, error, redirect }}
+      value={value}
     >
       {children}
     </AuthContext.Provider>

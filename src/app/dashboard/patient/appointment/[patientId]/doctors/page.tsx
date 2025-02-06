@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 const page = () => {
   interface Doctor {
-    id: string;
+    doctorId: string;
     image: string;
     name: string;
     speciality: string;
@@ -36,7 +36,7 @@ const page = () => {
           {doctor.map((item, index) => (
             <div
                onClick={() => {
-                 route.push(`/admin/dashboard/patient/appointment/${patientId}/slots/${item.id}`);
+                 route.push(`/dashboard/patient/appointment/${patientId}/slots/${item.doctorId}`);
                }}
               key={index}
               className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
