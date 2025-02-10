@@ -20,6 +20,7 @@ export interface Patient{
 }
 
 export interface Appointment {
+  appointmentId:String,
   id: String;
   name:String;
   identificationNumber:String;

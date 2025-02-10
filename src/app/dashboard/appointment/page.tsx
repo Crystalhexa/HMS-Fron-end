@@ -27,12 +27,10 @@ const page = (props: Props) => {
       }
   };
   
-  
   return (
     <main className="admin-main">
       <DataTable type="doctor" columns={columns} data={appointment} />
     </main>
   );
 };
-
 export default page;

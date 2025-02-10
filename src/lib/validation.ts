@@ -121,6 +121,7 @@ export const DoctorFormValidation = z.object({
 
 
 export const MedicaleRecordValidation = z.object({
+  appointmentId: z.string(),
   symptoms: z.string().min(1, "Symptoms are required"),
   diagnosis: z.string().min(1, "Diagnosis is required"),
   prescription: z.string().optional(),

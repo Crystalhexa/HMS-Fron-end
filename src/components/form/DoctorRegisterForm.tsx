@@ -88,8 +88,6 @@ const DoctorRegisterForm = ({ type }: { type: "create" | "update" }) => {
         body: JSON.stringify(doctor),
       });
 
-      console.log(response)
-
       if (response.ok) {
         toast({
           title: "Success!",

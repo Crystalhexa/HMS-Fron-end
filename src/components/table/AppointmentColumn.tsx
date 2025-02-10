@@ -74,8 +74,8 @@ export const columns: ColumnDef<Appointment>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const handleViewPatient = () => {
-        const patientId = row.original.id; // Assuming each patient has an "id" field
-        redirect(`/dashboard/appointment/medicalhistory`); // Navigate to patient details page
+        const appointmentId = row.original.appointmentId;
+        redirect(`/dashboard/appointment/medicalhistory/medicaleRecord/${appointmentId}`); // Navigate to patient details page
       };
       const scheduleAppointment = () => {
         // const patientId = row.original.patient_id; // Assuming each patient has an "id" field

@@ -9,7 +9,7 @@ const Layout = async ({ params: { workspaceId }, children }: Props) => {
   return (
     <div className="flex h-screen w-screen">
       <Sidebar activeWorkspaceId={workspaceId} />
-      <div className="w-full p-6 overflow-y-scroll overflow-x-hidden">
+      <div className="w-full p-6 remove-scrollbar   overflow-x-hidden">
         {children}
       </div>
     </div>
