@@ -42,3 +42,11 @@ export interface Doctor {
   identificationNumber: string;
 }
 
+export interface Drugs{
+  id:String;
+  drug_name:String;
+  category:String;
+  drug_code: String;
+  drug_type: String;
+}
+

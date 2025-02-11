@@ -27,8 +27,8 @@ import {
       icon: <CreditCard />,
     },
     {
-      title: 'Settings',
-      href: `/dashboard/settings`,
+      title: 'Drugs',
+      href: `/dashboard/drugs`,
       icon: <Settings />,
     },
   ]

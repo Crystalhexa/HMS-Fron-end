@@ -7,7 +7,7 @@ type Props = {};
 
 const page = (props: Props) => {
     const [appointment,setAppointment] = useState([]);
-    const { login, loading, error, redirect, user } = useAuth();
+    const {  user } = useAuth();
 
     useEffect(()=>{
       if(user?.userId){

@@ -128,3 +128,11 @@ export const MedicaleRecordValidation = z.object({
   treatmentNotes: z.string().optional(),
   allergies: z.string().optional(),
 });
+
+export const DrugFormValidation = z.object({
+  drug_name: z.string().min(1, "Drug name is required"),
+  category: z.string().min(1, "Category is required"),
+  description: z.string().min(1, "Description is required"),
+  drug_code: z.string().min(1, "Drug code is required"),
+  drug_type: z.string().min(1, "Drug type is required"),
+});
