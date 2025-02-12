@@ -1,4 +1,7 @@
-/* eslint-disable no-unused-vars */
+"use client";
+
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { E164Number } from "libphonenumber-js/core";
 import Image from "next/image";
 import ReactDatePicker from "react-datepicker";
@@ -16,6 +19,21 @@ import {
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -24,6 +42,7 @@ export enum FormFieldType {
   CHECKBOX = "checkbox",
   DATE_PICKER = "datePicker",
   SELECT = "select",
+  COMBOBOX = "combobox",
   SKELETON = "skeleton",
 }
 
@@ -40,6 +59,7 @@ interface CustomProps {
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
+  options?: { value: string; label: string }[]; // Add options for combobox
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -119,7 +139,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             <ReactDatePicker
               showTimeSelect={props.showTimeSelect ?? false}
               selected={field.value}
-              onChange={(date: Date) => field.onChange(date)}
+              onChange={(date: Date | null) => field.onChange(date)}
               timeInputLabel="Time:"
               dateFormat={props.dateFormat ?? "MM/dd/yyyy"}
               wrapperClassName="date-picker"
@@ -140,6 +160,16 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               {props.children}
             </SelectContent>
           </Select>
+        </FormControl>
+      );
+    case FormFieldType.COMBOBOX:
+      return (
+        <FormControl>
+          <Combobox
+            options={props.options || []}
+            selectedValue={field.value}
+            onSelect={field.onChange}
+          />
         </FormControl>
       );
     case FormFieldType.SKELETON:
@@ -171,3 +201,61 @@ const CustomFormField = (props: CustomProps) => {
 };
 
 export default CustomFormField;
+
+const Combobox = ({   
+  options,   
+  selectedValue,   
+  onSelect, 
+}: {   
+  options: { value: string; label: string }[];   
+  selectedValue: string;   
+  onSelect: (value: string) => void; 
+}) => {   
+  const [open, setOpen] = React.useState(false);    
+
+  return (     
+    <Popover open={open} onOpenChange={setOpen}>       
+      <PopoverTrigger asChild>         
+        <Button           
+          variant="outline"           
+          role="combobox"           
+          aria-expanded={open}           
+          className="w-[200px] justify-between bg-dark-400 border-dark-500 text-white" // Updated background color
+        >           
+          {selectedValue
+            ? options.find((opt) => opt.value === selectedValue)?.label
+            : "Select an option..."}           
+          <ChevronsUpDown className="opacity-50" />         
+        </Button>       
+      </PopoverTrigger>       
+      <PopoverContent className="w-[200px] p-0 bg-dark-400 border-dark-500 text-white"> {/* Updated background color */}
+        <Command>           
+          <CommandInput placeholder="Search..." className="h-9 bg-dark-300 border-0 text-white" />           
+          <CommandList>             
+            <CommandEmpty>No options found.</CommandEmpty>             
+            <CommandGroup>               
+              {options.map((opt) => (                 
+                <CommandItem                   
+                  key={opt.value}                   
+                  value={opt.value}                   
+                  onSelect={(currentValue) => {                     
+                    onSelect(currentValue === selectedValue ? "" : currentValue);                     
+                    setOpen(false);                   
+                  }}                 
+                  className="bg-dark-400 text-white hover:bg-dark-300" // Updated background color
+                >                   
+                  {opt.label}                   
+                  <Check                     
+                    className={cn(
+                      "ml-auto opacity-100" // Always visible
+                    )}                   
+                  />                 
+                </CommandItem>               
+              ))}             
+            </CommandGroup>           
+          </CommandList>         
+        </Command>       
+      </PopoverContent>     
+    </Popover>   
+  ); 
+};
