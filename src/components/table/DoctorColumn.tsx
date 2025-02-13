@@ -76,10 +76,10 @@ export const columns: ColumnDef<Doctor>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={handleViewPatient}>
-              View Patient
+              View Doctor
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={scheduleAppointment}>Schedule Appointment</DropdownMenuItem>
+            <DropdownMenuItem onClick={scheduleAppointment}>View Appointment</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

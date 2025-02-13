@@ -43,7 +43,7 @@ export interface Doctor {
 }
 
 export interface Drugs{
-  id:String;
+  drugsId:String;
   drug_name:String;
   category:String;
   drug_code: String;

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/table";
 import { useParams } from "next/navigation";
 import { MedicationModal } from "@/components/global/MedicationModal";
+import { X } from "lucide-react";
 
 const MedicationValidation = z.object({
   medicationName: z.string().min(1, "Medication name is required"),
@@ -146,7 +147,17 @@ const Page = () => {
   const handleBack = () => {
     router.back();
   };
+  const handleDelete = (index: number) => {
+    const updatedMedications = medications.filter((_, i) => i !== index);
+    setMedications(updatedMedications);
+    localStorage.setItem("medicationData", JSON.stringify(updatedMedications));
 
+    toast({
+      title: "Deleted!",
+      description: "Medication removed successfully.",
+      style: { backgroundColor: "black", color: "white" },
+    });
+  };
   return (
     <div className="sub-container max-w-[860px] flex-1 flex-col py-10">
       <Form {...form}>
@@ -200,9 +211,9 @@ const Page = () => {
                     <TableHead>Dosage</TableHead>
                     <TableHead>Frequency</TableHead>
                     <TableHead>Duration</TableHead>
+                    <TableCell>Delete</TableCell>
                   </TableRow>
                 </TableHeader>
-
                 <TableBody>
                   {medications.map((med, index) => (
                     <TableRow key={index} className="shad-table-row">
@@ -210,6 +221,16 @@ const Page = () => {
                       <TableCell>{med.dosage}</TableCell>
                       <TableCell>{med.frequency}</TableCell>
                       <TableCell>{med.duration}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-red-500 hover:bg-red-100"
+                          onClick={() => handleDelete(index)}
+                        >
+                          <X className="w-5 h-5" />
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -227,10 +248,8 @@ const Page = () => {
             Back
           </Button>
           <div className="">
-          <MedicationModal />
+            <MedicationModal />
           </div>
-            
-          
         </div>
         <Toaster />
       </Form>

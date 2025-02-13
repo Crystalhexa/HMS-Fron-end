@@ -71,6 +71,10 @@ export const columns: ColumnDef<Patient>[] = [
         const patientId = row.original.adultPatientId; // Assuming each patient has an "id" field
         redirect(`/dashboard/patient/update/${patientId}`); // Navigate to patient details page
       };
+      const handleMedicaleRecords = ()=>{
+        const patientId = row.original.adultPatientId; // Assuming each patient has an "id" field
+        redirect(`/dashboard/patient/records/${patientId}`); // Navigate to patient details page
+      };
       const scheduleAppointment = () => {
         const patientId = row.original.adultPatientId; // Assuming each patient has an "id" field
         redirect(`/dashboard/patient/appointment/${patientId}/doctors`); // Navigate to patient details page
@@ -88,6 +92,9 @@ export const columns: ColumnDef<Patient>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={handleViewPatient}>
               View Patient
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleMedicaleRecords}>
+              Medicale records
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={scheduleAppointment}>Schedule Appointment</DropdownMenuItem>

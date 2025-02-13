@@ -1,7 +1,5 @@
 'use client'
-import DoctorRegisterForm from "@/components/form/DoctorRegisterForm";
 import DrugRegisterForm from "@/components/form/DrugRegisterForm";
-import RegisterForm from "@/components/form/RegisterForm";
 import { useRouter } from "next/navigation"; // Use useRouter for client-side navigation
 
 interface RegisterProps {
@@ -13,7 +11,7 @@ export default function Register({ type }: RegisterProps) {
   const router = useRouter();
 
   const handleBack =()=>{
-    router.push('/dashboard/doctors')
+    router.push('/dashboard/drugs')
   }
 
   return (

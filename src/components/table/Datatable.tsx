@@ -77,6 +77,12 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 8, // Change this value to control the number of rows per page
+      },
+    },
   });
 
   return (

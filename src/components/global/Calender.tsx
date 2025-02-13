@@ -74,7 +74,7 @@ const DoctorCalendar: React.FC<DoctorCalendarProps> = ({ doctorId }) => {
   };
 
   return (
-    <div className="p-4 dark:bg-gray-900 dark:text-white">
+    <div>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
