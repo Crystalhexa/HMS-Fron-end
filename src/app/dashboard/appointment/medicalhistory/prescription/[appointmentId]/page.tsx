@@ -226,9 +226,11 @@ const Page = () => {
           >
             Back
           </Button>
-          <p>
-            <MedicationModal />
-          </p>
+          <div className="">
+          <MedicationModal />
+          </div>
+            
+          
         </div>
         <Toaster />
       </Form>

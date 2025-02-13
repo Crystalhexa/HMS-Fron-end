@@ -1,4 +1,5 @@
 "use client";
+import DoctorCalendar from "@/components/global/Calender";
 import StatCard from "@/components/global/StatCard";
 import { useAuth } from "@/contexts/AuthContext";
 import React from "react";
@@ -38,6 +39,7 @@ const page = (props: Props) => {
             icon={"/assets/icons/cancelled.svg"}
           />
         </section>
+        <DoctorCalendar doctorId={user.userId}/>
       </main>
     );
   }

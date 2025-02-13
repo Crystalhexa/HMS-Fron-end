@@ -2,12 +2,12 @@ import { z } from "zod";
 
 export const UserFormValidation = z.object({
   username: z
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(50, "Name must be at most 50 characters")
-    .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain alphanumeric characters and underscores")
-    .regex(/^(?!.*__.*).*$/, "Username cannot have consecutive underscores")
-    .regex(/^[a-zA-Z]/, "Username must start with a letter"),
+    .string(),
+    // .min(2, "Name must be at least 2 characters")
+    // .max(50, "Name must be at most 50 characters")
+    // .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain alphanumeric characters and underscores")
+    // .regex(/^(?!.*__.*).*$/, "Username cannot have consecutive underscores")
+    // .regex(/^[a-zA-Z]/, "Username must start with a letter"),
 
   password: z
     .string()
