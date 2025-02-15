@@ -26,13 +26,19 @@ const Page = () => {
             icon="/assets/icons/appointments.svg"
           />
         )}
-        <StatCard type="pending" label="Pending Appointments" icon="/assets/icons/pending.svg" />
-        <StatCard type="cancelled" label="Cancelled Appointments" icon="/assets/icons/cancelled.svg" />
+        <StatCard
+          type="pending"
+          label="Pending Appointments"
+          icon="/assets/icons/pending.svg"
+        />
+        <StatCard
+          type="cancelled"
+          label="Cancelled Appointments"
+          icon="/assets/icons/cancelled.svg"
+        />
       </section>
 
-      
-        <DoctorCalendar doctorId={user.userId} />
-    
+      <DoctorCalendar doctorId={user.userId} />
     </main>
   );
 };

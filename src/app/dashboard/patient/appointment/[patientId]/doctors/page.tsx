@@ -22,7 +22,15 @@ const page = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/doctor/getall"); // Ensure the correct endpoint path
+      const res = await fetch("http://localhost:3000/api/v1/doctor/getall",
+        {
+          method:"GET",
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          credentials:"include"
+        }
+      ); // Ensure the correct endpoint path
       const data = await res.json(); // Await the JSON response
       if (res.ok) {
         setDoctor(data);

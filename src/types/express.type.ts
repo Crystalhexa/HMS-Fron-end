@@ -28,6 +28,7 @@ export interface Appointment {
   slotDate:String;
   slotTime:String;
   status: Status;
+  
 }
 export interface Doctor {
   id:any;

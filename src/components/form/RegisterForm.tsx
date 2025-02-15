@@ -51,7 +51,15 @@ const RegisterForm = ({ type }: { type: "create" | "update" }) => {
 
   const fetchPatientDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/adult/getById/${patientId}`);
+      const response = await fetch(`http://localhost:3000/api/v1/adult/getById/${patientId}`,
+        {
+          method:"GET",
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          credentials:"include"
+        }
+      );
       const data = await response.json();
       // Convert date_of_birth string to a Date object
       

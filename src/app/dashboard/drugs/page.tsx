@@ -12,7 +12,16 @@ const page = () => {
 
   const fetchDrugs = async ()=>{
     try {
-      const res = await fetch("http://localhost:3000/api/v1/drugs/getAll");
+      const res = await fetch("http://localhost:3000/api/v1/drugs/getAll",
+        {
+          method:"GET",
+          headers:{
+            'Content-Type':'application/json'
+          },
+          credentials:'include'
+    
+        }
+      );
       const data = await res.json();
       if(res.ok){
         setDrugs(data)

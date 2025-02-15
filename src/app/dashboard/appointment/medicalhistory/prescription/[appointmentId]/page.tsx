@@ -60,7 +60,14 @@ const Page = () => {
     const fetchDrugs = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/v1/drugs/getAll"
+          "http://localhost:3000/api/v1/drugs/getAll",
+          {
+            method:"GET",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            credentials:"include"
+          }
         );
         if (!response.ok) {
           throw new Error("Failed to fetch drugs");

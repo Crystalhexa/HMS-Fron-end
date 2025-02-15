@@ -39,7 +39,14 @@ const DrugRegisterForm = ({ type }: { type: "create" | "update" }) => {
   const fetchDrugDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/drugs/getById/${drugsId}`
+        `http://localhost:3000/api/v1/drugs/getById/${drugsId}`,
+        {
+          method:"GET",
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          credentials:"include"
+        }
       );
       const data = await response.json();
       reset({

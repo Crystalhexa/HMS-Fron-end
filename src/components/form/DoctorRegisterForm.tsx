@@ -48,7 +48,14 @@ const DoctorRegisterForm = ({ type }: { type: "create" | "update" }) => {
   const fetchDoctorDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/doctor/getById/${doctorId}`
+        `http://localhost:3000/api/v1/doctor/getById/${doctorId}`,
+        {
+          method:"GET",
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          credentials:"include"
+        }
       );
       const data = await response.json();
       reset({

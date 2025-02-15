@@ -1,6 +1,6 @@
 'use client'
 import { DataTable } from '@/components/table/Datatable'
-import { columns } from "@/components/table/AppointmentColumn";
+import { columns } from "@/components/table/HealthRecordColumn";
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -15,7 +15,15 @@ const page = () => {
 
     const fetchAppointment = async() =>{
         try {
-            const res = await fetch(`http://localhost:3000/api/v1/appointment/getAppointmentByPatient/${patientId}`); // Ensure the correct endpoint path
+            const res = await fetch(`http://localhost:3000/api/v1/appointment/getAppointmentByPatient/${patientId}`,
+              {
+                method:"GET",
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                credentials:"include"
+              }
+            ); // Ensure the correct endpoint path
             const data = await res.json(); // Await the JSON response
             if (res.ok) {
               setAppointment(data);

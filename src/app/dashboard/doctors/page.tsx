@@ -13,7 +13,14 @@ const Patient = (props: Props) => {
 
   const fetchUsers = async () => {
     try {
-        const res = await fetch("http://localhost:3000/api/v1/doctor/getAll"); // Ensure the correct endpoint path
+        const res = await fetch("http://localhost:3000/api/v1/doctor/getAll",
+          {
+            method:"GET",
+            headers:{
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+          });
         const data = await res.json(); // Await the JSON response
         if (res.ok) {
             setUser(data);

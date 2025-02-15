@@ -11,9 +11,8 @@ type User = {
   userId: string;
   username: string;
   email: string;
-  role: string
-}
-
+  role: string;
+};
 
 type AuthContextType = {
   user: User | null;
@@ -24,16 +23,40 @@ type AuthContextType = {
   error: string;
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [redirect, setRedirect] = useState<boolean>(false);
 
+  // ✅ Function to fetch user from API (to validate role)
+  const fetchUser = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/auth/me", {
+        credentials: "include",
+      });
+      if (!res.ok) {
+        logout();
+        return;
+      }
+      const data = await res.json();
+      setUser(data);
+      localStorage.setItem("user", JSON.stringify(data)); // Update only if valid
+    } catch (err) {
+      console.error("Error fetching user:", err);
+      logout();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Login Function
   const login = async (username: string, password: string): Promise<boolean> => {
     setLoading(true);
     setError("");
@@ -42,61 +65,47 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
-        credentials: "include", // This is crucial for cookies
+        credentials: "include",
       });
+
       const data = await res.json();
       if (!res.ok) {
         setError(data.message || "Login failed");
         setLoading(false);
-        return false; // Return false if login fails
+        return false;
       }
+
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
       setRedirect(true);
-      setLoading(true);
-      return true; // Return true if login succeeds
+      return true;
     } catch (err: any) {
       setError(err.message || "An error occurred");
+      return false;
+    } finally {
       setLoading(false);
-      return false; // Return false on error
     }
   };
 
+  // ✅ Logout Function
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
   };
 
+  // ✅ Load User on App Start
   useEffect(() => {
-    const checkUser = async () => {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-      setLoading(false);
-    };
-
-    checkUser();
+    fetchUser();
   }, []);
 
-  const value={
-    user, 
-    login, 
-    logout, 
-    loading, 
-    error, 
-    redirect
-  }
-
   return (
-    <AuthContext.Provider
-      value={value}
-    >
+    <AuthContext.Provider value={{ user, login, logout, loading, error, redirect }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
+// ✅ Fix: Correct `useAuth` hook
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {

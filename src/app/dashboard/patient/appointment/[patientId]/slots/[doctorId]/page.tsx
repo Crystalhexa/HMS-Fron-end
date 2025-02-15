@@ -25,7 +25,14 @@ const Page = () => {
   const fetchDocInfo = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/doctor/getById/${doctorId}`
+        `http://localhost:3000/api/v1/doctor/getById/${doctorId}`,
+        {
+          method:"GET",
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          credentials:"include"
+        }
       );
       if (!res.ok) throw new Error("Failed to fetch doctor info");
 
@@ -39,7 +46,14 @@ const Page = () => {
   const fetchAppointments = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/appointment/getByDoctorId/${doctorId}`
+        `http://localhost:3000/api/v1/appointment/getByDoctorId/${doctorId}`,
+        {
+          method:"GET",
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          credentials:"include"
+        }
       );
       if (!res.ok) throw new Error("Failed to fetch appointments");
 
@@ -162,7 +176,7 @@ const Page = () => {
 
   return (
     docInfo && (
-      <div className="text-gray-200 bg-gray-900 min-h-screen p-6">
+      <div className="text-gray-200  min-h-screen p-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div>
             <img
@@ -197,7 +211,7 @@ const Page = () => {
         </p>
 
         {/* Date Selection */}
-        <div className="flex gap-3 items-center w-full overflow-x-auto scrollbar-hide mt-4">
+        <div className="flex  gap-3 items-center w-full overflow-x-auto scrollbar-hide mt-4">
           {docSlots.map((slots, index) => (
             <div
               key={index}
@@ -205,7 +219,7 @@ const Page = () => {
               className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
                 slotIndex === index
                   ? "bg-sky-600 text-white"
-                  : "border border-gray-600 text-gray-300"
+                  : "border bg-gray-800 border-gray-600 text-gray-300"
               }`}
             >
               <p>{slots[0] && daysOfWeek[slots[0].datetime.getDay()]}</p>
@@ -223,7 +237,7 @@ const Page = () => {
               className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
                 slot.time === slotTime
                   ? "bg-sky-600 text-white"
-                  : "border border-gray-600 text-gray-300"
+                  : "border border-gray-600 bg-gray-800 text-gray-300"
               }`}
             >
               {slot.time.toLowerCase()}

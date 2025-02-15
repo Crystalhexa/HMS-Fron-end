@@ -17,7 +17,14 @@ const page = (props: Props) => {
   
     const fetchAppointment = async () => {
       try {
-          const res = await fetch(`http://localhost:3000/api/v1/appointment/getAppointmentByDay/${user?.userId}`); // Ensure the correct endpoint path
+          const res = await fetch(`http://localhost:3000/api/v1/appointment/getAppointmentByDay/${user?.userId}`,
+            {
+              method:"GET",
+              headers:{
+                  'Content-Type': 'application/json'
+              },
+              credentials:"include"
+            }); // Ensure the correct endpoint path
           const data = await res.json(); // Await the JSON response
           if (res.ok) {
             setAppointment(data);
