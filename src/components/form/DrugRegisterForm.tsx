@@ -73,6 +73,7 @@ const DrugRegisterForm = ({ type }: { type: "create" | "update" }) => {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
+        credentials:"include"
       });
 
       if (response.ok) {

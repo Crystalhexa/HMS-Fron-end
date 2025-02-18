@@ -32,7 +32,7 @@ const DoctorRegisterForm = ({ type }: { type: "create" | "update" }) => {
       address: "",
       password: "",
       specialization: "",
-      yearsOfExperience: 0,
+      yearsOfExperience: "",
       medicalLicenseNumber: "",
     },
   });
@@ -93,6 +93,7 @@ const DoctorRegisterForm = ({ type }: { type: "create" | "update" }) => {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(doctor),
+        credentials:"include"
       });
 
       if (response.ok) {

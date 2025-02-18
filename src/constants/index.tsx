@@ -8,30 +8,64 @@ import {
   import { Gender } from "@/types";
 
   export const MENU_ITEMS = (
-    workspaceId: string
-  ): { title: string; href: string; icon: React.ReactNode }[] => [
-    { title: 'Home', href: `/dashboard/home`, icon: <Home /> },
-    {
-      title: 'Patient',
-      href: `/dashboard/patient`,
-      icon: <FileDuoToneBlack />,
-    },
-    {
-      title: 'Doctors',
-      href: `/dashboard/doctors`,
-      icon: <Bell />,
-    },
-    {
-      title: 'Appointments',
-      href: `/dashboard/appointment`,
-      icon: <CreditCard />,
-    },
-    {
-      title: 'Drugs',
-      href: `/dashboard/drugs`,
-      icon: <Settings />,
-    },
-  ]
+    role: string
+  ): { title: string; href: string; icon: React.ReactNode }[] => {
+    const doctorItems = [
+      { title: 'Home', href: `/dashboard/home`, icon: <Home /> },
+      {
+        title: 'Patient',
+        href: `/dashboard/patient`,
+        icon: <FileDuoToneBlack />,
+      },
+      {
+        title: 'Appointments',
+        href: `/dashboard/appointment`,
+        icon: <CreditCard />,
+      },
+      {
+        title: 'Doctors',
+        href: `/dashboard/doctors`,
+        icon: <Bell />,
+      }
+    ];
+
+    const adminItem = [
+      {
+        title: 'Patient',
+        href: `/dashboard/patient`,
+        icon: <FileDuoToneBlack />,
+      },
+    ];
+    const ownerItem =[
+      { title: 'Home', href: `/dashboard/home`, icon: <Home /> },
+      {
+        title: 'Doctors',
+        href: `/dashboard/doctors`,
+        icon: <Bell />,
+      },
+      {
+        title: 'Drugs',
+        href: `/dashboard/drugs`,
+        icon: <Settings />,
+      },
+      {
+        title: 'Appointments',
+        href: `/dashboard/appointment`,
+        icon: <CreditCard />,
+      },
+    ];  
+    
+    
+    if (role === 'DOCTOR') {
+      return doctorItems;
+    } else if (role === 'ADMIN') {
+      return adminItem;
+    } else if (role === 'OWNER') {
+      return ownerItem;
+    } else {
+      return [];
+    }
+  }
 
 
 export const GenderOptions = ["MALE", "FEMALE", "OTHER"];

@@ -1,27 +1,30 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import React from 'react'
-import { Menu, PlusCircle } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { MENU_ITEMS } from '@/constants'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import SidebarItem from './sidebar-item'
+import { useAuth } from '@/contexts/AuthContext'
+
 type Props = {
   activeWorkspaceId: string
 }
 
 const Sidebar = ({ activeWorkspaceId }: Props) => {
-
-  const router = useRouter()
   const pathName = usePathname()
+  const { user } = useAuth()
 
-  const menuItems = MENU_ITEMS(activeWorkspaceId)
+  // Ensure user.role exists before passing to MENU_ITEMS
+  const menuItems = user?.role ? MENU_ITEMS( user.role) : []
 
   const SidebarSection = (
     <div className="bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-hidden">
-      <div className="bg-[#111111] p-4 flex gap-2 justify-center items-center mb-4 absolute top-0 left-0 right-0 ">
+      {/* Logo Section */}
+      <div className="p-4 flex gap-2 justify-center items-center mb-6">
         <Image
           src="/assets/icons/logo-full.svg"
           height={150}
@@ -29,12 +32,10 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           alt="logo"
         />
       </div>
-   
+
       <Separator className="w-4/5" />
-      <Separator className="w-4/5" />
-      <Separator className="w-4/5" />
-      <Separator className="w-4/5" />
-      <p className="w-full  font-bold mt-15">Menu</p>
+
+      {/* Menu Section */}
       <nav className="w-full">
         <ul>
           {menuItems.map((item) => (
@@ -48,35 +49,29 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           ))}
         </ul>
       </nav>
-      <Separator className="w-4/5" />
 
+      <Separator className="w-4/5 mt-auto" />
     </div>
   )
+
   return (
     <div className="full">
-      
-      <div className="md:hidden fixed my-4">
+      {/* Mobile Sidebar (Hidden on Large Screens) */}
+      <div className="md:hidden fixed top-4 left-4">
         <Sheet>
-          <SheetTrigger
-            asChild
-            className="ml-2"
-          >
-            <Button
-              variant={'ghost'}
-              className="mt-[2px]"
-            >
+          <SheetTrigger asChild>
+            <Button variant="ghost">
               <Menu />
             </Button>
           </SheetTrigger>
-          <SheetContent
-            side={'left'}
-            className="p-0 w-fit h-full"
-          >
+          <SheetContent side="left" className="p-0 w-fit h-full">
             {SidebarSection}
           </SheetContent>
         </Sheet>
       </div>
-      <div className="md:block hidden h-full">{SidebarSection}</div>
+
+      {/* Desktop Sidebar */}
+      <div className="hidden md:block h-full">{SidebarSection}</div>
     </div>
   )
 }

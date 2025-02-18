@@ -3,6 +3,7 @@ import { DataTable } from "@/components/table/Datatable";
 import { useAuth } from "@/contexts/AuthContext";
 import { columns } from "@/components/table/AppointmentColumn";
 import React, { useEffect, useState } from "react";
+import AppointmentBar from "@/components/global/Appoinment";
 type Props = {};
 
 const page = (props: Props) => {
@@ -26,6 +27,7 @@ const page = (props: Props) => {
               credentials:"include"
             }); // Ensure the correct endpoint path
           const data = await res.json(); // Await the JSON response
+          console.log(data)
           if (res.ok) {
             setAppointment(data);
           }
@@ -36,7 +38,7 @@ const page = (props: Props) => {
   
   return (
     <main className="admin-main">
-      <DataTable type="doctor" columns={columns} data={appointment} />
+      <AppointmentBar appointments={appointment}/>
     </main>
   );
 };

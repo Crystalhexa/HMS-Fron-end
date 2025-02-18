@@ -1,40 +1,16 @@
-"use client"
-import { DataTable } from '@/components/table/Datatable'
-import React, { useEffect, useState } from 'react'
+'use server'
+import { fetchDoctors } from "@/components/server/actions";
+import { DataTable } from "@/components/table/Datatable";
 import { columns } from "@/components/table/DoctorColumn";
 
-type Props = {}
-
-const Patient = (props: Props) => {
-  const [user,setUser] = useState([]);
-  useEffect(()=>{
-    fetchUsers();
-  },[]);
-
-  const fetchUsers = async () => {
-    try {
-        const res = await fetch("http://localhost:3000/api/v1/doctor/getAll",
-          {
-            method:"GET",
-            headers:{
-              'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-          });
-        const data = await res.json(); // Await the JSON response
-        if (res.ok) {
-            setUser(data);
-        }
-    } catch (error) {
-        console.error('Error fetching users:', error);
-    }
-};
+const DoctorTable = async () => {
+  const doctors = await fetchDoctors();
 
   return (
-    <div>
-        <DataTable type="doctor" columns={columns} data={user} />    
-    </div>
-  )
-}
+    <section className="p-4">
+      <DataTable type="doctor" columns={columns} data={doctors} />
+    </section>
+  );
+};
 
-export default Patient
+export default DoctorTable;

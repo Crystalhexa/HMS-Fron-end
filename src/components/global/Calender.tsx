@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { format } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { format, parse } from "date-fns";
 import {
   Dialog,
   DialogContent,
@@ -10,176 +13,76 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { fetchAppointmentsForDate, fetchAppointmentsForMonth } from "../server/actions";
 
 interface DoctorCalendarProps {
   doctorId: string;
 }
 
-interface Appointment {
-  id: number;
-  appointmentId: string;
-  slotDate: string;
-  slotTime: string;
-  status: string;
-  doctorId: string;
-  adultpatient?: {
-    name: string;
-    contactNumber: string;
-    email: string;
-    address: string;
-  };
-  childpatient?: { firstName: string };
-}
-
-const DoctorCalendar: React.FC<DoctorCalendarProps> = ({ doctorId }) => {
-  const [appointments, setAppointments] = useState<
-    { title: string; start: Date; details: Appointment }[]
-  >([]);
-  const [selectedAppointments, setSelectedAppointments] = useState<
-    Appointment[]
-  >([]);
+const DoctorCalendar = ({ doctorId }: DoctorCalendarProps) => {
+  const [appointments, setAppointments] = useState<any[]>([]);
   const [bookedDates, setBookedDates] = useState<Set<string>>(new Set());
   const [open, setOpen] = useState(false);
 
+  // Fetch appointments for the entire month
   useEffect(() => {
-    if (doctorId) {
-      fetchAppointmentsForMonth();
-    }
+    const loadAppointments = async () => {
+      const { appointments, bookedDates } = await fetchAppointmentsForMonth(doctorId);
+      setBookedDates(new Set(Array.from(bookedDates) as string[]));
+    };
+
+    loadAppointments();
   }, [doctorId]);
 
-  const fetchAppointmentsForMonth = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/v1/appointment/monthlyAppointments?userId=${doctorId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-      const result = await response.json();
-
-      if (result.success && Array.isArray(result.data)) {
-        const newAppointments = result.data.map(
-          (appointment: { patientName: any; start: string; end: string }) => ({
-            title: `${appointment.patientName} - Time: ${
-              appointment.start.split("T")[1]
-            }`,
-            start: parse(
-              appointment.start.replace(/_/g, "-"),
-              "d-M-yyyy'T'hh:mm a",
-              new Date()
-            ),
-            end: parse(
-              appointment.end.replace(/_/g, "-"),
-              "d-M-yyyy'T'hh:mm a",
-              new Date()
-            ),
-            details: appointment,
-          })
-        );
-
-        const bookedDays: Set<string> = new Set(
-          result.data.map((appointment: { start: string }) =>
-            appointment.start.split("T")[0].replace(/_/g, "-")
-          )
-        );
-
-        setAppointments(newAppointments);
-        setBookedDates(bookedDays);
-      }
-    } catch (error) {
-      console.error("Error fetching appointments:", error);
-    }
-  };
-
+  // Handle date click to fetch appointments for the selected day
   const handleDateClick = async (info: { dateStr: string }) => {
-    const formattedDate = format(new Date(info.dateStr), "d_M_yyyy");
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/v1/appointment/daybydayAppointment?userId=${doctorId}&date=${formattedDate}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-      const result = await response.json();
-
-      if (result.success && Array.isArray(result.data)) {
-        setSelectedAppointments(result.data);
-        setOpen(true);
-      }
-    } catch (error) {
-      console.error("Error fetching appointments:", error);
-    }
+    const selectedAppointments = await fetchAppointmentsForDate(doctorId, info.dateStr);
+    setAppointments(selectedAppointments);
+    setOpen(true);
   };
 
   return (
-    <div>
-      <div className="w-full max-w-4xl mx-auto p-4  rounded-lg shadow-lg">
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        dateClick={handleDateClick}
-        dayCellClassNames={({ date }) => {
-          const formattedDate = format(date, "d-M-yyyy");
-          return bookedDates.has(formattedDate)
-            ? "bg-blue-400 dark:bg-blue-600 text-white font-bold rounded-md"
-            : "";
-        }}
-        headerToolbar={{
-          left: "prev,next",
-          center: "title",
-          right: "dayGridMonth",
-        }}
-      />
-</div>
+    <div className="mx-auto flex max-w-7xl flex-col space-y-14">
+      <main className="admin-main">
+        <div className="w-full max-w-4xl mx-auto p-4 rounded-lg shadow-lg">
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            dateClick={handleDateClick}
+            dayCellClassNames={({ date }) => {
+              const formattedDate = format(date, "d_M_yyyy");
+              return bookedDates.has(formattedDate)
+                ? "bg-blue-400 text-white font-bold rounded-md"
+                : "";
+            }}
+            headerToolbar={{ left: "prev,next", center: "title", right: "dayGridMonth" }}
+          />
+        </div>
+      </main>
 
-
-      {/* Dark mode modal */}
+      {/* Appointment Details Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-lg max-w-lg w-full p-4">
+        <DialogContent className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full p-4">
           <DialogHeader>
-            <DialogTitle className="dark:text-white">
-              Appointments for Selected Date
-            </DialogTitle>
+            <DialogTitle>Appointments for Selected Date</DialogTitle>
           </DialogHeader>
-          <div className="max-h-[70vh] overflow-y-auto space-y-2 p-2 border border-gray-300 dark:border-gray-700 rounded-lg">
-            {selectedAppointments.length > 0 ? (
-              selectedAppointments.map((appointment) => (
-                <div
-                  key={appointment.id}
-                  className="p-2 border border-gray-400 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700"
-                >
+          <div className="max-h-[70vh] overflow-y-auto space-y-2 p-2 border border-gray-300 rounded-lg">
+            {appointments.length > 0 ? (
+              appointments.map((appointment) => (
+                <div key={appointment.id} className="p-2 border rounded-lg bg-gray-100">
                   <p>
                     <strong>Patient:</strong>{" "}
-                    {appointment.adultpatient?.name ||
-                      appointment.childpatient?.firstName ||
-                      "Unknown"}
+                    {appointment.adultpatient?.name || appointment.childpatient?.firstName || "Unknown"}
                   </p>
-                  <p>
-                    <strong>Time:</strong> {appointment.slotTime}
-                  </p>
-                  <p>
-                    <strong>Status:</strong> {appointment.status}
-                  </p>
+                  <p><strong>Time:</strong> {appointment.slotTime}</p>
+                  <p><strong>Status:</strong> {appointment.status}</p>
                 </div>
               ))
             ) : (
-              <p className="dark:text-gray-300">
-                No appointments found for this date.
-              </p>
+              <p>No appointments found for this date.</p>
             )}
           </div>
-          <Button
-            className="w-full mt-4 bg-gray-200 dark:bg-gray-600 text-black dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700"
-            onClick={() => setOpen(false)}
-          >
+          <Button className="w-full mt-4 bg-gray-200" onClick={() => setOpen(false)}>
             Close
           </Button>
         </DialogContent>

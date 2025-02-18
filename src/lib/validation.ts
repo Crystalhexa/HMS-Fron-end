@@ -114,7 +114,7 @@ export const DoctorFormValidation = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
   identificationNumber: z.string().min(6, "Identification Number is required"),
   specialization: z.string().min(3, "Specialization must be at least 3 characters long"),
-  yearsOfExperience: z.number().min(0, "Years of experience must be a positive number"),
+  yearsOfExperience: z.string().min(0, "Years of experience must be a positive number"),
   medicalLicenseNumber: z.string().min(6, "Medical License Number is required"),
 });
 

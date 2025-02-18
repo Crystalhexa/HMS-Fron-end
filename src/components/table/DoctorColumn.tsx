@@ -1,10 +1,10 @@
+'use client'
 import { ColumnDef } from "@tanstack/react-table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Doctor } from "@/types/express.type";
 import { redirect } from "next/navigation";
-
 
 export const columns: ColumnDef<Doctor>[] = [
   {
