@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { getUserFromServer } from "@/actions/auth";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -14,11 +15,12 @@ export const metadata: Metadata = {
   title: "Panadura Nursing Home",
   description: "A health care management system",
 };
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const user = await getUserFromServer();
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -27,7 +29,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <AuthProvider>
+        <AuthProvider initialUser={user}>
           <ThemeProvider attribute="class" defaultTheme="dark">
             {children}
           </ThemeProvider>

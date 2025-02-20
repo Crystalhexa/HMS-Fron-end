@@ -1,7 +1,7 @@
 "use server"
+import { fetchPatients } from '@/actions/patient.action';
 import { DataTable } from '@/components/table/Datatable'
 import { columns } from "@/components/table/PatientColumn";
-import { fetchPatients } from '@/components/server/actions';
 
 
 const Patient = async() => {
@@ -12,7 +12,7 @@ const Patient = async() => {
   
     return (
       <section className="p-4">
-        <DataTable type="doctor" columns={columns} data={patient} />
+        <DataTable type="patient" columns={columns} data={patient} />
       </section>
     );
 }

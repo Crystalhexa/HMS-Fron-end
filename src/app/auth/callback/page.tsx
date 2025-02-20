@@ -1,9 +1,12 @@
-import { redirect } from 'next/navigation'
+import { getUserFromServer } from "@/actions/auth";
+import { redirect } from "next/navigation";
 
 const AuthCallbackPage = async () => {
-  
-    return redirect(`/dashboard/home`)
+  const user = await getUserFromServer();
+  if(user){
+    return redirect(`/dashboard/home`);
+  }
+  return redirect(`/auth/sign-in`);
+};
 
-}
-
-export default AuthCallbackPage
+export default AuthCallbackPage;

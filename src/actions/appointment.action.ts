@@ -1,7 +1,6 @@
 "use server";
-
-import { format } from "date-fns";
 import { cookies } from "next/headers";
+import { format } from "date-fns";
 
 const API_BASE_URL = "http://localhost:3000/api/v1";
 
@@ -28,6 +27,29 @@ const fetchWithCookies = async (url: string) => {
   return response.json();
 };
 
+export const fetchAppointmentByPatient = async (patientId: String)=>{
+    try {
+        return await fetchWithCookies(`${API_BASE_URL}/appointment/getAppointmentByPatient/${patientId}`)
+    } catch (error) {
+        console.error("Error fetching doctors:", error);
+        return [];
+    }
+}
+
+// Fetch Appointments for a Specific Date
+export const fetchAppointmentsForDate = async (doctorId: string, dateStr: string) => {
+  const formattedDate = format(new Date(dateStr), "d_M_yyyy");
+  try {
+    const result = await fetchWithCookies(
+      `${API_BASE_URL}/appointment/daybydayAppointment?userId=${doctorId}&date=${formattedDate}`
+    );
+
+    return result.success ? result.data : [];
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+  }
+  return [];
+};
 // Fetch Appointments for the Month
 export const fetchAppointmentsForMonth = async (doctorId: string) => {
   try {
@@ -61,37 +83,13 @@ export const fetchAppointmentsForMonth = async (doctorId: string) => {
   return { appointments: [], bookedDates: new Set() };
 };
 
-// Fetch Appointments for a Specific Date
-export const fetchAppointmentsForDate = async (doctorId: string, dateStr: string) => {
-  const formattedDate = format(new Date(dateStr), "d_M_yyyy");
+export const fetchAppoinmentByDoctor = async(doctorId: String)=>{
   try {
-    const result = await fetchWithCookies(
-      `${API_BASE_URL}/appointment/daybydayAppointment?userId=${doctorId}&date=${formattedDate}`
-    );
-
-    return result.success ? result.data : [];
-  } catch (error) {
-    console.error("Error fetching appointments:", error);
-  }
-  return [];
-};
-
-// Fetch All Doctors
-export const fetchDoctors = async () => {
-  try {
-    return await fetchWithCookies(`${API_BASE_URL}/doctor/getAll`);
-  } catch (error) {
+    return await fetchWithCookies(`${API_BASE_URL}/appointment/getAppointmentByDay/${doctorId}`)
+  }catch(error){
     console.error("Error fetching doctors:", error);
     return [];
   }
+  
 };
 
-// Fetch All Patients
-export const fetchPatients = async () => {
-  try {
-    return await fetchWithCookies(`${API_BASE_URL}/adult/getall`);
-  } catch (error) {
-    console.error("Error fetching patients:", error);
-    return [];
-  }
-};

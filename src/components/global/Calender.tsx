@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
@@ -13,7 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { fetchAppointmentsForDate, fetchAppointmentsForMonth } from "../server/actions";
+import { fetchAppointmentsForDate, fetchAppointmentsForMonth } from "@/actions/appointment.action";
 
 interface DoctorCalendarProps {
   doctorId: string;
@@ -50,10 +49,8 @@ const DoctorCalendar = ({ doctorId }: DoctorCalendarProps) => {
             initialView="dayGridMonth"
             dateClick={handleDateClick}
             dayCellClassNames={({ date }) => {
-              const formattedDate = format(date, "d_M_yyyy");
-              return bookedDates.has(formattedDate)
-                ? "bg-blue-400 text-white font-bold rounded-md"
-                : "";
+              const formattedDate = format(date, "d-M-yyyy");
+              return bookedDates.has(formattedDate) ? "bg-blue-400 dark:bg-blue-600 text-white font-bold rounded-md" : "";
             }}
             headerToolbar={{ left: "prev,next", center: "title", right: "dayGridMonth" }}
           />

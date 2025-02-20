@@ -1,11 +1,6 @@
 "use client";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState, useEffect } from "react";
+import { getUserFromServer } from "@/actions/auth"; // Import server helper
 
 type User = {
   userId: string;
@@ -16,47 +11,21 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
   loading: boolean;
-  redirect: boolean;
-  error: string;
+  login: (username: string, password: string) => Promise<boolean>;
+  error: String
 };
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
-);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+export const AuthProvider: React.FC<{ children: ReactNode; initialUser: User | null }> = ({
   children,
+  initialUser, // Pass user from server
 }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(initialUser);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [redirect, setRedirect] = useState<boolean>(false);
-
-  // ✅ Function to fetch user from API (to validate role)
-  const fetchUser = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/v1/auth/me", {
-        credentials: "include",
-      });
-      if (!res.ok) {
-        logout();
-        return;
-      }
-      const data = await res.json();
-      setUser(data);
-      localStorage.setItem("user", JSON.stringify(data)); // Update only if valid
-    } catch (err) {
-      console.error("Error fetching user:", err);
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ✅ Login Function
   const login = async (username: string, password: string): Promise<boolean> => {
     setLoading(true);
     setError("");
@@ -74,10 +43,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setLoading(false);
         return false;
       }
-
       setUser(data);
-      localStorage.setItem("user", JSON.stringify(data));
-      setRedirect(true);
       return true;
     } catch (err: any) {
       setError(err.message || "An error occurred");
@@ -86,26 +52,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(false);
     }
   };
-
-  // ✅ Logout Function
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    document.cookie = "token=; Max-Age=0"; // Clear cookie
   };
 
-  // ✅ Load User on App Start
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, error, redirect }}>
+    <AuthContext.Provider value={{ user, logout, loading ,login,error}}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// ✅ Fix: Correct `useAuth` hook
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {

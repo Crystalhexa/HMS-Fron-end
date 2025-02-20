@@ -1,45 +1,18 @@
-"use client";
-import { DataTable } from "@/components/table/Datatable";
-import { useAuth } from "@/contexts/AuthContext";
-import { columns } from "@/components/table/AppointmentColumn";
-import React, { useEffect, useState } from "react";
-import AppointmentBar from "@/components/global/Appoinment";
+"use server";
+
+import AppointmentBar from "@/components/global/appoinment/AppointmentBar";
+import { getUserFromServer } from "@/actions/auth";
+import { fetchAppoinmentByDoctor } from "@/actions/appointment.action";
 type Props = {};
 
-const page = (props: Props) => {
-    const [appointment,setAppointment] = useState([]);
-    const {  user } = useAuth();
-
-    useEffect(()=>{
-      if(user?.userId){
-        fetchAppointment();
-      }
-    },[user?.userId]);
-  
-    const fetchAppointment = async () => {
-      try {
-          const res = await fetch(`http://localhost:3000/api/v1/appointment/getAppointmentByDay/${user?.userId}`,
-            {
-              method:"GET",
-              headers:{
-                  'Content-Type': 'application/json'
-              },
-              credentials:"include"
-            }); // Ensure the correct endpoint path
-          const data = await res.json(); // Await the JSON response
-          console.log(data)
-          if (res.ok) {
-            setAppointment(data);
-          }
-      } catch (error) {
-          console.error('Error fetching users:', error);
-      }
-  };
-  
+const page = async(props: Props) => {
+    const user = await getUserFromServer(); 
+    console.log(user)
+    const appointment = await fetchAppoinmentByDoctor(user.userId);  
   return (
-    <main className="admin-main">
+    <section className="p-4">
       <AppointmentBar appointments={appointment}/>
-    </main>
+    </section>
   );
 };
 export default page;

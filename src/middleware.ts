@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { getUserFromServer } from './actions/auth';
 
 // 1. Specify public routes
 const publicRoutes = ['/login', '/signup', ''];
-
 export default async function middleware(req: NextRequest) {
+  const user = await getUserFromServer();
+  console.log(user)
   // 2. Get the current route path
   const path = req.nextUrl.pathname;
 

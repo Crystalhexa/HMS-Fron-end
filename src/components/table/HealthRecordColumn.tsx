@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+'use client'
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";

@@ -1,40 +1,16 @@
-"use client"
+"use server"
 import { DataTable } from '@/components/table/Datatable'
 import React, { useEffect, useState } from 'react'
 import { columns } from "@/components/table/DrugsColumn";
+import { fetchDrugs } from '@/actions/drugAction';
 
-const page = () => {
-  const [drugs,setDrugs] = useState([]);
-
-  useEffect(()=>{
-    fetchDrugs()
-  },[])
-
-  const fetchDrugs = async ()=>{
-    try {
-      const res = await fetch("http://localhost:3000/api/v1/drugs/getAll",
-        {
-          method:"GET",
-          headers:{
-            'Content-Type':'application/json'
-          },
-          credentials:'include'
-    
-        }
-      );
-      const data = await res.json();
-      if(res.ok){
-        setDrugs(data)
-      }      
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-  }
+const DrugsTable = async() => {
+  const drugs = await fetchDrugs();
   return (
-    <div>
+    <section className="p-4">
         <DataTable type='drugs' columns={columns} data={drugs}/>
-    </div>
+    </section>
   )
 }
 
-export default page
+export default DrugsTable

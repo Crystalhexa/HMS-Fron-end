@@ -21,11 +21,6 @@ import {
         title: 'Appointments',
         href: `/dashboard/appointment`,
         icon: <CreditCard />,
-      },
-      {
-        title: 'Doctors',
-        href: `/dashboard/doctors`,
-        icon: <Bell />,
       }
     ];
 
@@ -42,6 +37,11 @@ import {
         title: 'Doctors',
         href: `/dashboard/doctors`,
         icon: <Bell />,
+      },
+      {
+        title: 'Patient',
+        href: `/dashboard/patient`,
+        icon: <FileDuoToneBlack />,
       },
       {
         title: 'Drugs',

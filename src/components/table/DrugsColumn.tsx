@@ -1,3 +1,4 @@
+'use client'
 import { Drugs } from "@/types/express.type";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
